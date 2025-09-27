@@ -42,8 +42,9 @@ def get_basic_info(cursor):
     }
 
     result = {}
-    for label,query in queries.items():
+    for label, query in queries.items():
         cursor.execute(query)
         row = cursor.fetchone()
-        
         result[label] = list(row)[0]
+
+        return result 
