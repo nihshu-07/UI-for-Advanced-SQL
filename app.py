@@ -4,7 +4,8 @@ import pymysql.cursors
 
 from db_functions import(
     connect_to_db,
-    get_basic_info
+    get_basic_info,
+    get_additional_tables
 )
 
 st.sidebar.title("Inventory Management Dashboard")
@@ -24,4 +25,11 @@ if option == "Basic Information":
 
     for i, key in enumerate(keys):
         cols[i % 3].metric(label=key, value=basic_info[key])
+        
+
+    tables = get_additional_tables(cursor)
+    for labels,data in tables.items():
+        st.header(labels)
+        df = pd.DataFrame(data)
+        st.dataframe(df)
         
