@@ -32,4 +32,7 @@ if option == "Basic Information":
         st.header(labels)
         df = pd.DataFrame(data)
         st.dataframe(df)
-        
+
+if option ==  "Operational Tasks":
+    st.header("Operaton Tasks")
+    selected_task = st.selectbox("Choose an task",["Add new Product","Product History","Place Reorder","Recieve Reorder"])
