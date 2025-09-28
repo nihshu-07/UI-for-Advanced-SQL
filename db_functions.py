@@ -16,7 +16,7 @@ def get_basic_info(cursor):
     
     "Total category" :"SELECT count(distinct category) as total_category FROM products",
     
-    "Total sales value made in last 3 months":"""SELECT ROUND(SUM(ABS(se.change_quantity) * p.price), 2) AS total_sales_last_3_months
+    "Total sales value(last 3 months)":"""SELECT ROUND(SUM(ABS(se.change_quantity) * p.price), 2) AS total_sales_last_3_months
     FROM stock_entries se
     JOIN products p 
     ON p.product_id = se.product_id
@@ -26,7 +26,7 @@ def get_basic_info(cursor):
         FROM stock_entries)""",
     
     
-    "Total restock value made in last 3 months":"""SELECT ROUND(SUM(ABS(se.change_quantity) * p.price), 2) AS total_restock_last_3_months
+    "Total restock value(last 3 months)":"""SELECT ROUND(SUM(ABS(se.change_quantity) * p.price), 2) AS total_restock_last_3_months
     FROM stock_entries se
     JOIN products p 
     ON p.product_id = se.product_id
@@ -35,7 +35,7 @@ def get_basic_info(cursor):
             SELECT DATE_SUB(MAX(entry_date), INTERVAL 3 MONTH)
             FROM stock_entries)""",
      
-    "Below reorder and no pending reorders":"""SELECT COUNT(*) FROM products as p
+    "Below & no pending reorders":"""SELECT COUNT(*) FROM products as p
     WHERE p.stock_quantity < p.reorder_level
     AND p.product_id NOT IN (
     SELECT DISTINCT product_id FROM reorders WHERE status = 'pending')"""	
@@ -57,3 +57,24 @@ def get_basic_info(cursor):
             result[label] = row  # fallback
 
     return result 
+
+def get_additional_tables(cursor):
+    queries = {
+        "Suppliers Contact details": "SELECT supplier_name,contact_name,email,phone FROM suppliers",
+
+        "Product with supplier and stock": """SELECT p.product_name,s.supplier_name,p.stock_quantity,p.reorder_level 
+                                            FROM products as p
+                                            JOIN suppliers s ON
+                                            p.supplier_id = s.supplier_id
+                                            ORDER BY p.product_name ASC""",
+
+        "Product needing reorder": """SELECT product_id,product_name,stock_quantity,reorder_level FROM products
+                                    WHERE stock_quantity < reorder_level;"""
+    }
+
+    tables = {}
+    for label, query in queries.items():
+        cursor.execute(query)
+        tables[label] = cursor.fetchall()
+
+    return tables
