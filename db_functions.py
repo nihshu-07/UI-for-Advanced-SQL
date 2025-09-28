@@ -45,6 +45,15 @@ def get_basic_info(cursor):
     for label, query in queries.items():
         cursor.execute(query)
         row = cursor.fetchone()
-        result[label] = list(row)[0]
 
-        return result 
+        if not row:  # No result returned
+            result[label] = 0
+        elif isinstance(row, dict):  # If using DictCursor
+            # Get first value in dict
+            result[label] = next(iter(row.values()))
+        elif isinstance(row, (tuple, list)):  # If normal cursor
+            result[label] = row[0]
+        else:
+            result[label] = row  # fallback
+
+    return result 

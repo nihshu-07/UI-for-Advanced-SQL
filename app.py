@@ -19,12 +19,9 @@ if option == "Basic Information":
 
     basic_info = get_basic_info(cursor)
       
-    if basic_info:
-        cols = st.columns(3)
-        keys = list(basic_info.keys())
+    cols = st.columns(3)
+    keys = list(basic_info.keys())
 
-        for i in range(3):
-            value = basic_info[keys[i]]
-            cols[i].metric(label=keys[i], value=f"{value:}")
-        else:
-            st.warning("No basic info data available.")
+    for i, key in enumerate(keys):
+        cols[i % 3].metric(label=key, value=basic_info[key])
+        
