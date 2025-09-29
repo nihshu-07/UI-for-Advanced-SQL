@@ -101,4 +101,4 @@ def get_all_products(cursor):
 def get_product_history(cursor,product_id):
     query=("SELECT * FROM product_inventory_history WHERE product_id = %s ORDER BY record_date DESC")
     cursor.execute(query,(product_id,))
-    return cursor.fetchall
+    return cursor.fetchall()
