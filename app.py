@@ -62,3 +62,14 @@ if option ==  "Operational Tasks":
             )
 
             submitted = st.form_submit_button("Add Product")
+
+            if submitted :
+                if not product_name:
+                    st.error("Please enter product name")
+                else:
+                    try:
+                        add_new_manual_id(cursor,db,product_name,product_category,product_price
+                                          ,product_stock,product_level,supplier_id)
+                        st.success(f"Product {product_name} added successfully")
+                    except Exception as e:
+                        st.error(f"Error adding the product {e}")
