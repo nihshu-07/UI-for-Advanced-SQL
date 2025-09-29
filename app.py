@@ -10,7 +10,8 @@ from db_functions import(
     get_suppliers,
     add_new_manual_id,
     get_all_products,
-    get_product_history
+    get_product_history,
+    place_reorder
 )
 
 st.sidebar.title("Inventory Management Dashboard")
@@ -95,3 +96,29 @@ if option ==  "Operational Tasks":
                 st.dataframe(df)
             else:
                 st.info("No history found for the product selected")
+
+    if selected_task == "Place Reorder":
+        st.header("Place an Reorder")
+
+        products = get_all_products(cursor)
+        product_names = [p["product_name"] for p in products]
+        product_ids = [p["product_id"] for p in products]
+
+        selected_product_name = st.selectbox("Select an product",options = product_names)
+        reorder_qty = st.number_input("Reorder Quantity",min_value = 1,step =1)
+
+
+        if st.button("Place Reorder"):
+            if not selected_product_name:
+                st.error("Please select a product")
+
+            elif reorder_qty <=0:
+                st.error("Reorder Quantity must be greater than 0")
+            else:
+                selected_product_id = product_ids[product_names.index(selected_product_name)]
+
+                try:
+                    place_reorder(cursor,db,selected_product_id,reorder_qty)
+                    st.success("Order Placed")
+                except Exception as e:
+                    st.error(f"Error placing reorder: {e}") 
