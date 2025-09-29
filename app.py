@@ -48,12 +48,12 @@ if option ==  "Operational Tasks":
         with st.form("Add_Product_Form"):
             product_name = st.text_input("Product_name")
             product_category = st.selectbox("Category",categories)
-            product_price = st.number_input("Price",min_value=0.00)
-            product_stock= st.number_input("Stock Quantity",min_value=0.00,step =1)
-            product_level = st.number_input("Reorder level",min_value=0.00,step =1)
+            product_price = st.number_input("Price",min_value=0.00,step = 0.1)
+            product_stock= st.number_input("Stock Quantity",min_value=0,step =1)
+            product_level = st.number_input("Reorder level",min_value=0,step =1)
 
-            supplier_ids=[s["Supplier_id"] for s in suppliers]
-            supplier_name=[s["Supplier_name"] for s in suppliers]
+            supplier_ids=[s["supplier_id"] for s in suppliers]
+            supplier_name=[s["supplier_name"] for s in suppliers]
 
             supplier_id = st.selectbox(
                 "Supplier",
