@@ -5,7 +5,10 @@ import pymysql.cursors
 from db_functions import(
     connect_to_db,
     get_basic_info,
-    get_additional_tables
+    get_additional_tables,
+    get_categories,
+    get_suppliers,
+    add_new_manual_id
 )
 
 st.sidebar.title("Inventory Management Dashboard")
@@ -36,3 +39,26 @@ if option == "Basic Information":
 if option ==  "Operational Tasks":
     st.header("Operaton Tasks")
     selected_task = st.selectbox("Choose an task",["Add new Product","Product History","Place Reorder","Recieve Reorder"])
+
+    if selected_task == "Add new Product":
+        st.header("Add New Product")
+        categories = get_categories(cursor)
+        suppliers = get_suppliers(cursor)
+
+        with st.form("Add_Product_Form"):
+            product_name = st.text_input("Product_name")
+            product_category = st.selectbox("Category",categories)
+            product_price = st.number_input("Price",min_value=0.00)
+            product_stock= st.number_input("Stock Quantity",min_value=0.00,step =1)
+            product_level = st.number_input("Reorder level",min_value=0.00,step =1)
+
+            supplier_ids=[s["Supplier_id"] for s in suppliers]
+            supplier_name=[s["Supplier_name"] for s in suppliers]
+
+            supplier_id = st.selectbox(
+                "Supplier",
+                options = supplier_ids,
+                format_func = lambda x: supplier_name[supplier_ids.index(x)]
+            )
+
+            submitted = st.form_submit_button("Add Product")
