@@ -16,10 +16,15 @@ from db_functions import(
     mark_reorder_as_received
 )
 
-st.sidebar.title("Inventory Management Dashboard")
+st.markdown("""
+    <div style="text-align: center; padding: 20px;">
+        <h1 style="color: #C0C0C0; font-size: 50px; font-family: 'Arial';">
+            🗃️ Inventory Management Dashboard
+        </h1>
+    </div>
+""", unsafe_allow_html=True)
 option = st.sidebar.radio("Select Option :",["Basic Information","Operational Tasks"])
 
-st.title('Inventory and Supply chain Dashboard')
 db = connect_to_db()
 cursor = db.cursor(pymysql.cursors.DictCursor)
 
