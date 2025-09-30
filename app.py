@@ -11,7 +11,9 @@ from db_functions import(
     add_new_manual_id,
     get_all_products,
     get_product_history,
-    place_reorder
+    place_reorder,
+    get_pending_reorders,
+    mark_reorder_as_received
 )
 
 st.sidebar.title("Inventory Management Dashboard")
@@ -122,3 +124,25 @@ if option ==  "Operational Tasks":
                     st.success("Order Placed")
                 except Exception as e:
                     st.error(f"Error placing reorder: {e}") 
+
+    if selected_task == "Receive Reorder":
+        st.header("Mark Reorder as Received")
+
+        pending_reorders = get_pending_reorders(cursor)
+        if not pending_reorders:
+            st.info("No pending reorder is received")
+        else:
+            reorder_ids = [r["reorder_id"] for r in pending_reorders]
+            reorder_labels=[f"ID {r["reorder_id"]} - {r["product_name"]}" for r in pending_reorders]
+
+            selected_label = st.selectbox("Select reorder to mark as received",options = reorder_labels)
+
+            if selected_label:
+                selected_reorder_id = reorder_ids[reorder_labels.index(selected_label)]
+
+                if st.button("Mark as Reaceived"):
+                    try:
+                        mark_reorder_as_received(cursor,db,selected_reorder_id)
+                        st.success(f"Reorder id {selected_reorder_id} marked as received")
+                    except Exception as e:
+                        st.errorf(f"Error {e}")
