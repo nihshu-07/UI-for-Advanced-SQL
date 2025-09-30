@@ -100,6 +100,12 @@ To add more functionality:
 
 ## 📸 Screenshots
 
+
+<img width="1903" height="899" alt="image" src="https://github.com/user-attachments/assets/59ea59fe-cc0c-449a-9361-517f2ea06805" />
+
+<img width="1913" height="846" alt="image" src="https://github.com/user-attachments/assets/7062d56d-b075-4518-8b34-7fa0715c46e6" />
+
+
 ---
 
 ## 🛤️ Roadmap / Future Improvements
