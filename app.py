@@ -125,7 +125,7 @@ if option ==  "Operational Tasks":
                 except Exception as e:
                     st.error(f"Error placing reorder: {e}") 
 
-    if selected_task == "Receive Reorder":
+    if selected_task == "Recieve Reorder":
         st.header("Mark Reorder as Received")
 
         pending_reorders = get_pending_reorders(cursor)

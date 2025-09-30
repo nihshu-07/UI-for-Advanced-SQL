@@ -119,7 +119,7 @@ def place_reorder(cursor,db,product_id,reorder_quantity):
 
 def get_pending_reorders(cursor):
     cursor.execute("""
-    select r.reorder_id,p.product_name from reorders as r join product as p on r.product_id = p.product_id
+    select r.reorder_id,p.product_name from reorders as r join products as p on r.product_id = p.product_id
     """)
     return cursor.fetchall()
 
