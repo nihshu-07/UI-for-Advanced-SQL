@@ -57,10 +57,12 @@ Before running the app, configure your MySQL credentials.
 
 Update your database connection in db_functions.py (or use environment variables):
 
+```bash
 DB_HOST = "localhost"
 DB_USER = "your_username"
 DB_PASSWORD = "your_password"
 DB_NAME = "your_database"
+```
 
 ---
 
